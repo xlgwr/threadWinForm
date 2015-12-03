@@ -334,7 +334,6 @@ namespace MachineSystem.UserControls
         public UserPerson()
         {
             InitializeComponent();
-            
         }
 
         //点击事件

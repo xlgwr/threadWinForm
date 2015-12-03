@@ -28,11 +28,8 @@ namespace FrmDemoControl
         {
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Resize += Form1_Resize;
-            //throw new NotImplementedException();
-
-
+            //throw new NotImplementedException();        
         }
-
         void Form1_Resize(object sender, EventArgs e)
         {
             //throw new NotImplementedException();
@@ -58,6 +55,9 @@ namespace FrmDemoControl
                     var clpersonlist = new UserPerson();
                     clpersonlist.Top = i * clpersonlist.Height;
                     clpersonlist.lblTitle.Text = "Test " + i.ToString();
+
+                    clpersonlist.AllEventClick += clpersonlist_AllEventClick;
+
                     this.Invoke(new Action(delegate()
                     {
                         this.flowLayoutPanel1.Controls.Add(clpersonlist);
@@ -81,6 +81,14 @@ namespace FrmDemoControl
 
 
             //throw new NotImplementedException();
+        }
+
+        void clpersonlist_AllEventClick(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+            UserControl dd = (UserControl)sender;
+            dd.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            dd.BackColor = Color.Red;
         }
 
         private void setMsg(Label lbl0Msg, string msg)
@@ -128,7 +136,7 @@ namespace FrmDemoControl
 
             this.flowLayoutPanel1.Controls.Clear();
             this.flowLayoutPanel1.Refresh();
-            setMsg(lbl0Msg, "Test2: 加载控件中。。。。");
+            setMsg(lbl0Msg, "Test2: 开始加载控件。。。。");
             //notice time
             _stopwatch = new Stopwatch();
             _stopwatch.Start();
@@ -137,7 +145,12 @@ namespace FrmDemoControl
             Task<int> t = new Task<int>(n => test2((int)n), allNum);
             t.Start();
             t.Wait();
-            setMsg(lbl0Msg, t.Result.ToString());
+            var tmpresult = t.Result.ToString();
+            if (tmpresult.Equals("1"))
+            {
+                setMsg(lbl0Msg, "控件初始化成功。");
+            }
+
 
             this.button3.Enabled = true;
             this.Cursor = Cursors.Default;
@@ -153,17 +166,26 @@ namespace FrmDemoControl
             }
             else
             {
-                var tmpmod = tmpallNum & batchnum;
+                var tmpmod = tmpallNum % batchnum;
+
+
                 tmpnum = (tmpallNum - tmpmod) / batchnum;
+
+                if (tmpallNum < batchnum)
+                {
+                    tmpnum = 1;
+                }
             }
 
-            for (int i = 0; i < tmpnum; i++)
+
+
+            for (int i = 0; i <= tmpnum; i++)
             {
                 var noticeContrls = new noticeContrls();
 
-                if (i * batchnum < tmpallNum)
+                if (i * batchnum + 1 <= tmpallNum)
                 {
-                    noticeContrls.clFirst = i * batchnum;
+                    noticeContrls.clFirst = i * batchnum + 1;
 
                     if ((i * batchnum + batchnum) < tmpallNum)
                     {
@@ -174,8 +196,9 @@ namespace FrmDemoControl
                         noticeContrls.clEnd = (i * batchnum) + (tmpallNum - i * batchnum);
                     }
 
+                    ThreadPool.QueueUserWorkItem(initForm1, noticeContrls);
                 }
-                ThreadPool.QueueUserWorkItem(initForm1, noticeContrls);
+
             }
             return 1;
         }

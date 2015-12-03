@@ -50,11 +50,14 @@ namespace FrmDemoControl
             try
             {
                 var tmpnum = (noticeContrls)num;
+
                 for (int i = tmpnum.clFirst; i <= tmpnum.clEnd; i++)
                 {
                     var clpersonlist = new UserPerson();
 
-                    //clpersonlist.Top = i * clpersonlist.Height;
+                    var tmpcol = flowLayoutPanel1.Width / clpersonlist.Width;
+
+                    clpersonlist.Top = ((tmpnum.clEnd / tmpcol) + 2) * clpersonlist.Height;
 
                     clpersonlist.lblTitle.Text = "Test " + i.ToString();
 
@@ -137,7 +140,7 @@ namespace FrmDemoControl
             var noticeContrls = new noticeContrls();
             noticeContrls.clFirst = 1;
             noticeContrls.clEnd = Int32.Parse(this.numericUpDown1.Value.ToString());
-
+            noticeContrls.batch = noticeContrls.clEnd;
             initForm1(noticeContrls);
 
             this.button1.Enabled = true;
@@ -193,6 +196,8 @@ namespace FrmDemoControl
             {
                 var noticeContrls = new noticeContrls();
 
+                noticeContrls.batch = batchnum;
+
                 if (i * batchnum + 1 <= tmpallNum)
                 {
                     noticeContrls.clFirst = i * batchnum + 1;
@@ -218,7 +223,10 @@ namespace FrmDemoControl
 
     public class noticeContrls
     {
+
         public int clFirst { get; set; }
         public int clEnd { get; set; }
+
+        public int batch { get; set; }
     }
 }

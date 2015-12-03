@@ -53,7 +53,9 @@ namespace FrmDemoControl
                 for (int i = tmpnum.clFirst; i <= tmpnum.clEnd; i++)
                 {
                     var clpersonlist = new UserPerson();
-                    clpersonlist.Top = i * clpersonlist.Height;
+
+                    //clpersonlist.Top = i * clpersonlist.Height;
+
                     clpersonlist.lblTitle.Text = "Test " + i.ToString();
 
                     clpersonlist.AllEventClick += clpersonlist_AllEventClick;

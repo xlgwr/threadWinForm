@@ -9,18 +9,20 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using MachineSystem.UserControls;
+using System.Diagnostics;
+using System.Threading;
 
 namespace FrmDemoControl
 {
     public partial class Form1 : Form
     {
-        frmMain _tmpfrmain;
+        Stopwatch _stopwatch;
         public Form1()
         {
             InitializeComponent();
             initwith();
             initfirst();
-            
+
         }
         private void initfirst()
         {
@@ -46,36 +48,144 @@ namespace FrmDemoControl
             groupBox2.Height = this.Height - groupBox2.Top - 50;
 
         }
-
-
-        public Form1(frmMain tmpfrmain)
+        private void initForm1(object num)
         {
-            InitializeComponent();
-            _tmpfrmain = tmpfrmain;
-            initfirst();
+            try
+            {
+                var tmpnum = (noticeContrls)num;
+                for (int i = tmpnum.clFirst; i <= tmpnum.clEnd; i++)
+                {
+                    var clpersonlist = new UserPerson();
+                    clpersonlist.Top = i * clpersonlist.Height;
+                    clpersonlist.lblTitle.Text = "Test " + i.ToString();
+                    this.Invoke(new Action(delegate()
+                    {
+                        this.flowLayoutPanel1.Controls.Add(clpersonlist);
+                    }));
+
+                }
+                if (tmpnum.clEnd >= allNum)
+                {
+                    //end notice time and show it.
+                    _stopwatch.Stop();
+                    var msg = "Test1: Use Time:" + _stopwatch.Elapsed.ToString();
+                    setMsg(lbl0Msg, msg);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+
+
+            //throw new NotImplementedException();
         }
 
-        private void initForm1()
+        private void setMsg(Label lbl0Msg, string msg)
         {
-
-            for (int i = 0; i <= this.numericUpDown1.Value; i++)
+            this.Invoke(new Action(delegate()
             {
-                var clpersonlist = new UserPerson();
-                clpersonlist.Top = i * clpersonlist.Height;
-                this.flowLayoutPanel1.Controls.Add(clpersonlist);
-            }
-            //throw new NotImplementedException();
+                lbl0Msg.Text = msg;
+            }));
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            lbl0Msg.Text = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            initForm1();
+            this.button1.Enabled = false;
+            this.Cursor = Cursors.WaitCursor;
+
+            this.flowLayoutPanel1.Controls.Clear();
+            this.flowLayoutPanel1.Refresh();
+            setMsg(lbl0Msg, "Test1: 加载控件中。。。。");
+            allNum = Int32.Parse(numericUpDown1.Value.ToString());
+            //notice time
+            _stopwatch = new Stopwatch();
+            _stopwatch.Start();
+            //todo some thing
+
+            var noticeContrls = new noticeContrls();
+            noticeContrls.clFirst = 1;
+            noticeContrls.clEnd = Int32.Parse(this.numericUpDown1.Value.ToString());
+
+            initForm1(noticeContrls);
+
+            this.button1.Enabled = true;
+            this.Cursor = Cursors.Default;
+
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.button3.Enabled = false;
+            this.Cursor = Cursors.WaitCursor;
+
+            this.flowLayoutPanel1.Controls.Clear();
+            this.flowLayoutPanel1.Refresh();
+            setMsg(lbl0Msg, "Test2: 加载控件中。。。。");
+            //notice time
+            _stopwatch = new Stopwatch();
+            _stopwatch.Start();
+            allNum = Int32.Parse(numericUpDown1.Value.ToString());
+
+            Task<int> t = new Task<int>(n => test2((int)n), allNum);
+            t.Start();
+            t.Wait();
+            setMsg(lbl0Msg, t.Result.ToString());
+
+            this.button3.Enabled = true;
+            this.Cursor = Cursors.Default;
+        }
+        public int test2(int tmpallNum)
+        {
+            var tmpnum = 0;
+            var batchnum = 10;
+
+            if (tmpallNum % batchnum == 0)
+            {
+                tmpnum = tmpallNum / batchnum;
+            }
+            else
+            {
+                var tmpmod = tmpallNum & batchnum;
+                tmpnum = (tmpallNum - tmpmod) / batchnum;
+            }
+
+            for (int i = 0; i < tmpnum; i++)
+            {
+                var noticeContrls = new noticeContrls();
+
+                if (i * batchnum < tmpallNum)
+                {
+                    noticeContrls.clFirst = i * batchnum;
+
+                    if ((i * batchnum + batchnum) < tmpallNum)
+                    {
+                        noticeContrls.clEnd = i * batchnum + batchnum;
+                    }
+                    else
+                    {
+                        noticeContrls.clEnd = (i * batchnum) + (tmpallNum - i * batchnum);
+                    }
+
+                }
+                ThreadPool.QueueUserWorkItem(initForm1, noticeContrls);
+            }
+            return 1;
+        }
+
+        public int allNum { get; set; }
+    }
+
+    public class noticeContrls
+    {
+        public int clFirst { get; set; }
+        public int clEnd { get; set; }
     }
 }

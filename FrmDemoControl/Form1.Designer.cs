@@ -90,7 +90,7 @@
             this.numericUpDown1.Size = new System.Drawing.Size(72, 21);
             this.numericUpDown1.TabIndex = 5;
             this.numericUpDown1.Value = new decimal(new int[] {
-            50,
+            100,
             0,
             0,
             0});

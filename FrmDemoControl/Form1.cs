@@ -167,18 +167,12 @@ namespace FrmDemoControl
             else
             {
                 var tmpmod = tmpallNum % batchnum;
-
-
                 tmpnum = (tmpallNum - tmpmod) / batchnum;
-
                 if (tmpallNum < batchnum)
                 {
                     tmpnum = 1;
                 }
             }
-
-
-
             for (int i = 0; i <= tmpnum; i++)
             {
                 var noticeContrls = new noticeContrls();

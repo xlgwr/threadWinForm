@@ -66,7 +66,7 @@ namespace FrmDemoControl
                         item.MouseEnter += clpersonlist_MouseEnter;
                         item.MouseHover += clpersonlist_MouseEnter;
                         item.MouseLeave += clpersonlist_MouseLeave;
-                    }                    
+                    }
                     clpersonlist.AllEventClick += clpersonlist_AllEventClick;
 
                     this.BeginInvoke(new Action(delegate()

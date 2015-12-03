@@ -61,6 +61,12 @@ namespace FrmDemoControl
 
                     clpersonlist.lblTitle.Text = "Test " + i.ToString();
 
+                    foreach (Control item in clpersonlist.Controls)
+                    {
+                        item.MouseEnter += clpersonlist_MouseEnter;
+                        item.MouseHover += clpersonlist_MouseEnter;
+                        item.MouseLeave += clpersonlist_MouseLeave;
+                    }                    
                     clpersonlist.AllEventClick += clpersonlist_AllEventClick;
 
                     this.BeginInvoke(new Action(delegate()
@@ -86,6 +92,18 @@ namespace FrmDemoControl
 
 
             //throw new NotImplementedException();
+        }
+
+        void clpersonlist_MouseLeave(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+            this.Cursor = Cursors.Default;
+        }
+
+        void clpersonlist_MouseEnter(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+            this.Cursor = Cursors.Hand;
         }
 
         void clpersonlist_AllEventClick(object sender, EventArgs e)

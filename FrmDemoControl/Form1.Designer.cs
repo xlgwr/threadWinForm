@@ -143,6 +143,7 @@
             this.Controls.Add(this.lbl0Msg);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);

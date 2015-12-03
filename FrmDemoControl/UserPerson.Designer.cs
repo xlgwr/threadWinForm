@@ -201,6 +201,6 @@
         public System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lblStatus;
         public System.Windows.Forms.Label lblTitle;
-        private UserPicture userPicture1;
+        public UserPicture userPicture1;
     }
 }

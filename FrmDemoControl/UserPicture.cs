@@ -59,6 +59,9 @@ namespace MachineSystem.UserControls
         public UserPicture()
         {
             InitializeComponent();
+            SetStyle(ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);//防止窗口跳动
+            SetStyle(ControlStyles.DoubleBuffer, true); //防止控件跳动 
         }
 
         private void UserPicture_Click(object sender, EventArgs e)

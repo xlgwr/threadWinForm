@@ -20,6 +20,11 @@ namespace FrmDemoControl
         public Form1()
         {
             InitializeComponent();
+            SetStyle(ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);//防止窗口跳动
+            SetStyle(ControlStyles.DoubleBuffer, true); //防止控件跳动 
+
+
             initwith();
             initfirst();
 
@@ -51,6 +56,9 @@ namespace FrmDemoControl
             {
                 var tmpnum = (noticeContrls)num;
 
+                int tmpArrNum = tmpnum.clEnd - tmpnum.clFirst + 1;
+                Control[] lstContr = new Control[tmpArrNum];
+                int arrri = 0;
                 for (int i = tmpnum.clFirst; i <= tmpnum.clEnd; i++)
                 {
                     var clpersonlist = new UserPerson();
@@ -68,13 +76,13 @@ namespace FrmDemoControl
                         item.MouseLeave += clpersonlist_MouseLeave;
                     }
                     clpersonlist.AllEventClick += clpersonlist_AllEventClick;
-
-                    this.BeginInvoke(new Action(delegate()
-                    {
-                        this.flowLayoutPanel1.Controls.Add(clpersonlist);
-                    }));
-
+                    lstContr[arrri] = clpersonlist;
+                    arrri++;
                 }
+                this.BeginInvoke(new Action(delegate()
+                {
+                    this.flowLayoutPanel1.Controls.AddRange(lstContr);
+                }));
                 if (tmpnum.clEnd >= allNum)
                 {
                     //end notice time and show it.
@@ -237,6 +245,16 @@ namespace FrmDemoControl
         }
 
         public int allNum { get; set; }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.baidu.com");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.baidu.com");
+        }
     }
 
     public class noticeContrls

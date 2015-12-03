@@ -58,7 +58,7 @@ namespace FrmDemoControl
 
                     clpersonlist.AllEventClick += clpersonlist_AllEventClick;
 
-                    this.Invoke(new Action(delegate()
+                    this.BeginInvoke(new Action(delegate()
                     {
                         this.flowLayoutPanel1.Controls.Add(clpersonlist);
                     }));
@@ -87,8 +87,22 @@ namespace FrmDemoControl
         {
             //throw new NotImplementedException();
             UserControl dd = (UserControl)sender;
-            dd.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dd.BackColor = Color.Red;
+            if (dd.BorderStyle == BorderStyle.Fixed3D)
+            {
+                dd.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            }
+            else
+            {
+                dd.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            }
+            if (dd.BackColor == Color.Red)
+            {
+                dd.BackColor = Color.DarkGray;
+            }
+            else
+            {
+                dd.BackColor = Color.Red;
+            }
         }
 
         private void setMsg(Label lbl0Msg, string msg)

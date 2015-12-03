@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrmDemoControl", "FrmDemoControl.csproj", "{53FE0008-4A33-43CB-A71B-E24962CF884D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrmDemoControl", "FrmDemoControl\FrmDemoControl.csproj", "{53FE0008-4A33-43CB-A71B-E24962CF884D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

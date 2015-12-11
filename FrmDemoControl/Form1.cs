@@ -11,14 +11,19 @@ using System.Windows.Forms;
 using MachineSystem.UserControls;
 using System.Diagnostics;
 using System.Threading;
+using System.IO;
+using System.Net;
 
 namespace FrmDemoControl
 {
     public partial class Form1 : Form
     {
         Stopwatch _stopwatch;
+        public Control[] _listControl = null;
         public Form1()
         {
+            Stopwatch tmpdd = new Stopwatch();
+            tmpdd.Start();
             InitializeComponent();
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);//防止窗口跳动
@@ -27,8 +32,31 @@ namespace FrmDemoControl
 
             initwith();
             initfirst();
-
+            tmpdd.Stop();
+            var msg = "初始化: Use Time:" + tmpdd.Elapsed.ToString();
+            lbl0Msg.Text = msg;
         }
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+
+                CreateParams cp = base.CreateParams;
+
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED  
+                this.Opacity = 1;
+
+                //if (this.IsXpOr2003 == true)
+                //{
+                //    cp.ExStyle |= 0x00080000;  // Turn on WS_EX_LAYERED
+                //    this.Opacity = 1;
+                //}
+
+                return cp;
+
+            }
+
+        }  //防止闪烁
         private void initfirst()
         {
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -50,6 +78,52 @@ namespace FrmDemoControl
             groupBox2.Height = this.Height - groupBox2.Top - 50;
 
         }
+        public SetImage SetImageToPicture(object toimage)
+        {
+
+            try
+            {
+                //考勤系统头像目录
+                string AtPathDir = Application.StartupPath + "\\" + Common.AtPathDir;
+                if (string.IsNullOrEmpty(Common.AtPathDir))
+                {
+                    Common.AtPathDir = @"USER_PIC\\";
+                    AtPathDir = AtPathDir + Common.AtPathDir;
+                }
+
+                if (!Directory.Exists(AtPathDir))
+                {
+                    Directory.CreateDirectory(AtPathDir);
+                }
+
+                SetImage o = (SetImage)toimage;
+                if (o.strUserID == "")
+                {
+                    AtPathDir = AtPathDir + "01.png";
+                }
+                var setImagePath = AtPathDir + o.strUserID + ".jpg";
+
+                if (!File.Exists(setImagePath))
+                {
+                    WebClient myWebClient = new WebClient();
+                    var getImagePath = Common.getImageHttpURL + o.strUserID + ".jpg";
+                    myWebClient.DownloadFile(new Uri(getImagePath), setImagePath);
+                }
+
+                AtPathDir = setImagePath;
+
+                //this.Invoke(new Action(delegate()
+                //{
+                o.userPicture.ImageUrl = AtPathDir;
+                //}));
+
+                return o;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         private void initForm1(object num)
         {
             try
@@ -66,8 +140,8 @@ namespace FrmDemoControl
                     var tmpcol = flowLayoutPanel1.Width / clpersonlist.Width;
 
                     clpersonlist.Top = ((tmpnum.clEnd / tmpcol) + 2) * clpersonlist.Height;
-
-                    clpersonlist.lblTitle.Text = "Test " + i.ToString();
+                    clpersonlist.Left = i;
+                    clpersonlist.lblTitle.Text = "userPerson" + i.ToString();
 
                     foreach (Control item in clpersonlist.Controls)
                     {
@@ -76,8 +150,18 @@ namespace FrmDemoControl
                         item.MouseLeave += clpersonlist_MouseLeave;
                     }
                     clpersonlist.AllEventClick += clpersonlist_AllEventClick;
+
+                    //SetImage o = new SetImage() { userPicture = clpersonlist.userPicture1, strUserID = "F00012" };
+                    //Task<SetImage> t = new Task<SetImage>(n => SetImageToPicture((SetImage)n), o);
+                    //t.Start();
+
                     lstContr[arrri] = clpersonlist;
                     arrri++;
+                }
+                if (_listControl == null)
+                {
+                    _listControl = new Control[50];
+                    lstContr.CopyTo(_listControl,0);
                 }
                 this.BeginInvoke(new Action(delegate()
                 {
@@ -146,7 +230,8 @@ namespace FrmDemoControl
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            lbl0Msg.Text = "";
+            //lbl0Msg.Text = "";
+            tmpfrm2 = null;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -163,11 +248,26 @@ namespace FrmDemoControl
             _stopwatch.Start();
             //todo some thing
 
-            var noticeContrls = new noticeContrls();
-            noticeContrls.clFirst = 1;
-            noticeContrls.clEnd = Int32.Parse(this.numericUpDown1.Value.ToString());
-            noticeContrls.batch = noticeContrls.clEnd;
-            initForm1(noticeContrls);
+
+            if (_listControl != null)
+            {
+                Stopwatch tmpwatch = new Stopwatch();
+                tmpwatch.Start();
+
+                Form3 frm3 = new Form3(_listControl);
+                frm3.Show();
+
+                tmpwatch.Stop();
+                lbl0Msg.Text = "User Time:" + tmpwatch.Elapsed.ToString();
+            }
+            else
+            {
+                var noticeContrls = new noticeContrls();
+                noticeContrls.clFirst = 1;
+                noticeContrls.clEnd = Int32.Parse(this.numericUpDown1.Value.ToString());
+                noticeContrls.batch = noticeContrls.clEnd;
+                initForm1(noticeContrls);
+            }
 
             this.button1.Enabled = true;
             this.Cursor = Cursors.Default;
@@ -203,7 +303,7 @@ namespace FrmDemoControl
         public int test2(int tmpallNum)
         {
             var tmpnum = 0;
-            var batchnum = 10;
+            var batchnum = 5;
 
             if (tmpallNum % batchnum == 0)
             {
@@ -255,6 +355,39 @@ namespace FrmDemoControl
         {
             System.Diagnostics.Process.Start("http://www.baidu.com");
         }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            Stopwatch tmpwatch = new Stopwatch();
+            tmpwatch.Start();
+
+
+            if (tmpfrm2 == null)
+            {
+                tmpfrm2 = new Form2();
+            }
+            else
+            {
+                tmpfrm2.lbl0Msg.Text = "已预加载过。";
+            }
+
+            tmpfrm2.Show();
+
+            tmpwatch.Stop();
+            lbl0Msg.Text = "User Time:" + tmpwatch.Elapsed.ToString();
+        }
+
+        void tmpfrm2_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public Form2 tmpfrm2 { get; set; }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            tmpfrm2 = null;
+        }
     }
 
     public class noticeContrls
@@ -264,5 +397,10 @@ namespace FrmDemoControl
         public int clEnd { get; set; }
 
         public int batch { get; set; }
+    }
+    public class SetImage
+    {
+        public UserPicture userPicture { get; set; }
+        public string strUserID { get; set; }
     }
 }

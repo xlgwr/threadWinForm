@@ -30,6 +30,7 @@
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button2 = new System.Windows.Forms.Button();
@@ -37,7 +38,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lbl0Msg = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -51,7 +53,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 17);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(843, 387);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(900, 343);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // groupBox1
@@ -59,14 +61,26 @@
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.numericUpDown1);
+            this.groupBox1.Controls.Add(this.button6);
+            this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Location = new System.Drawing.Point(12, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(846, 103);
+            this.groupBox1.Size = new System.Drawing.Size(906, 103);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(605, 14);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(119, 42);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "清除新窗体";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // label1
             // 
@@ -101,9 +115,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(528, 20);
+            this.button2.Location = new System.Drawing.Point(436, 14);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(163, 72);
+            this.button2.Size = new System.Drawing.Size(163, 42);
             this.button2.TabIndex = 3;
             this.button2.Text = "Test3新窗体50个控件";
             this.button2.UseVisualStyleBackColor = true;
@@ -111,9 +125,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(357, 20);
+            this.button3.Location = new System.Drawing.Point(311, 14);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(119, 72);
+            this.button3.Size = new System.Drawing.Size(119, 42);
             this.button3.TabIndex = 3;
             this.button3.Text = "Test2多线程";
             this.button3.UseVisualStyleBackColor = true;
@@ -121,9 +135,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(186, 20);
+            this.button1.Location = new System.Drawing.Point(186, 14);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(119, 72);
+            this.button1.Size = new System.Drawing.Size(119, 42);
             this.button1.TabIndex = 4;
             this.button1.Text = "Test1单线程";
             this.button1.UseVisualStyleBackColor = true;
@@ -134,7 +148,7 @@
             this.groupBox2.Controls.Add(this.flowLayoutPanel1);
             this.groupBox2.Location = new System.Drawing.Point(12, 143);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(849, 407);
+            this.groupBox2.Size = new System.Drawing.Size(906, 363);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             // 
@@ -149,21 +163,31 @@
             this.lbl0Msg.TabIndex = 2;
             this.lbl0Msg.Text = "label2";
             // 
-            // button4
+            // button5
             // 
-            this.button4.Location = new System.Drawing.Point(710, 39);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(119, 35);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "清除新窗体";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button5.Location = new System.Drawing.Point(730, 14);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(163, 42);
+            this.button5.TabIndex = 3;
+            this.button5.Text = "Test4.Grid 10*5个控件 AddRange";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(730, 59);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(163, 42);
+            this.button6.TabIndex = 3;
+            this.button6.Text = "Test4.Grid 10*5个控件 Add";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button5_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(873, 554);
+            this.ClientSize = new System.Drawing.Size(929, 516);
             this.Controls.Add(this.lbl0Msg);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -193,6 +217,8 @@
         private System.Windows.Forms.Label lbl0Msg;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
 
 
     }

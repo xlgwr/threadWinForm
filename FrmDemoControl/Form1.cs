@@ -20,6 +20,7 @@ namespace FrmDemoControl
     {
         Stopwatch _stopwatch;
         public Control[] _listControl = null;
+        public Form3 _frm3;
         public Form1()
         {
             Stopwatch tmpdd = new Stopwatch();
@@ -160,8 +161,7 @@ namespace FrmDemoControl
                 }
                 if (_listControl == null)
                 {
-                    _listControl = new Control[50];
-                    lstContr.CopyTo(_listControl,0);
+                    _listControl = lstContr;
                 }
                 this.BeginInvoke(new Action(delegate()
                 {
@@ -254,8 +254,11 @@ namespace FrmDemoControl
                 Stopwatch tmpwatch = new Stopwatch();
                 tmpwatch.Start();
 
-                Form3 frm3 = new Form3(_listControl);
-                frm3.Show();
+                if (_frm3 == null)
+                {
+                    _frm3 = new Form3(_listControl);
+                }
+                _frm3.Show();
 
                 tmpwatch.Stop();
                 lbl0Msg.Text = "User Time:" + tmpwatch.Elapsed.ToString();
@@ -387,6 +390,18 @@ namespace FrmDemoControl
         private void button4_Click(object sender, EventArgs e)
         {
             tmpfrm2 = null;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+            Stopwatch tmpwatch = new Stopwatch();
+            tmpwatch.Start();
+            Form4 frm4 = new Form4(true);
+            frm4.Show();
+            tmpwatch.Stop();
+            lbl0Msg.Text = "Test4: User Time:" + tmpwatch.Elapsed.ToString();
+
         }
     }
 

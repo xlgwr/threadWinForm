@@ -19,6 +19,17 @@ namespace FrmDemoControl
         {
             InitializeComponent();
             this.Activated += Form2_Activated;
+            this.FormClosing += Form3_FormClosing;
+
+
+        }
+
+        void Form3_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //throw new NotImplementedException();
+            
+            this.Hide();
+            e.Cancel = true;
         }
         public Form3(Control[] cl)
         {
@@ -27,6 +38,8 @@ namespace FrmDemoControl
             groupBox1.Controls.AddRange(cl);
 
             this.Activated += Form2_Activated;
+            this.FormClosing += Form3_FormClosing;
+
         }
         int _isNum = 0;
         private void Form2_Activated(object sender, EventArgs e)

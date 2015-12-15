@@ -323,6 +323,35 @@ namespace MachineSystem.UserControls
         }
 
 
+        private int m_xa;
+
+        /// <summary>
+        /// X
+        /// </summary>
+        public int M_x
+        {
+            get { return m_xa; }
+            set
+            {
+                m_xa = value;
+            }
+        }
+
+
+        private int m_ya;
+
+        /// <summary>
+        /// y
+        /// </summary>
+        public int M_y
+        {
+            get { return m_ya; }
+            set
+            {
+                m_ya = value;
+            }
+        }
+
         #endregion
 
         public delegate void AllEvent(object sender, EventArgs e);

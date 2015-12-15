@@ -389,6 +389,8 @@ namespace FrmDemoControl
 
         private void button4_Click(object sender, EventArgs e)
         {
+            _frm3 = null;
+            _listControl = null;
             tmpfrm2 = null;
         }
 

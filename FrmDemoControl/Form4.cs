@@ -61,9 +61,6 @@ namespace FrmDemoControl
                         tmpnew.M_y = j - 1;
 
                         _listCtl[tmpi - 1] = tmpnew;
-                        //tableLayoutPanel1.Controls.Add(tmpnew);
-                        //tableLayoutPanel1.SetRow(tmpnew, i);
-                        //tableLayoutPanel1.SetColumn(tmpnew, j);
                     }
                 }
                 tableLayoutPanel1.Controls.AddRange(_listCtl);

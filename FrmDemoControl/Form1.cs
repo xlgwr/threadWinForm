@@ -20,11 +20,14 @@ namespace FrmDemoControl
     {
         Stopwatch _stopwatch;
         public Control[] _listControl = null;
+        public UserPerson clpersonlist = new UserPerson();
         public Form3 _frm3;
+        public int tmpcol = 5;
         public Form1()
         {
             Stopwatch tmpdd = new Stopwatch();
             tmpdd.Start();
+            this.Opacity = 1;
             InitializeComponent();
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);//防止窗口跳动
@@ -37,31 +40,32 @@ namespace FrmDemoControl
             var msg = "初始化: Use Time:" + tmpdd.Elapsed.ToString();
             lbl0Msg.Text = msg;
         }
-        protected override CreateParams CreateParams
-        {
-            get
-            {
+        //protected override CreateParams CreateParams
+        //{
+        //    get
+        //    {
 
-                CreateParams cp = base.CreateParams;
+        //        CreateParams cp = base.CreateParams;
 
-                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED  
-                this.Opacity = 1;
+        //        cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED  
+        //        this.Opacity = 1;
 
-                //if (this.IsXpOr2003 == true)
-                //{
-                //    cp.ExStyle |= 0x00080000;  // Turn on WS_EX_LAYERED
-                //    this.Opacity = 1;
-                //}
+        //        //if (this.IsXpOr2003 == true)
+        //        //{
+        //        //    cp.ExStyle |= 0x00080000;  // Turn on WS_EX_LAYERED
+        //        //    this.Opacity = 1;
+        //        //}
 
-                return cp;
+        //        return cp;
 
-            }
+        //    }
 
-        }  //防止闪烁
+        //}  //防止闪烁
         private void initfirst()
         {
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Resize += Form1_Resize;
+            tmpcol = flowLayoutPanel1.Width / clpersonlist.Width;
             //throw new NotImplementedException();        
         }
         void Form1_Resize(object sender, EventArgs e)
@@ -74,9 +78,15 @@ namespace FrmDemoControl
             //throw new NotImplementedException();
             groupBox1.Width = this.Width - groupBox1.Left - 25;
 
-            groupBox2.Left = groupBox1.Left;
-            groupBox2.Width = groupBox1.Width;
-            groupBox2.Height = this.Height - groupBox2.Top - 50;
+
+            xtraScrollableControl1.Left = groupBox1.Left;
+            xtraScrollableControl1.Width = groupBox1.Width;
+            xtraScrollableControl1.Height = this.Height - xtraScrollableControl1.Top - 50;
+            
+            flowLayoutPanel1.Top = 0;
+            flowLayoutPanel1.Left = 0;
+            flowLayoutPanel1.Width = xtraScrollableControl1.Width;
+
 
         }
         public SetImage SetImageToPicture(object toimage)
@@ -129,41 +139,54 @@ namespace FrmDemoControl
         {
             try
             {
+                this.SuspendLayout();
                 var tmpnum = (noticeContrls)num;
 
-                int tmpArrNum = tmpnum.clEnd - tmpnum.clFirst + 1;
+                var tmpArrNum = tmpnum.clEnd - tmpnum.clFirst + 1;
+                this.Invoke(new Action(delegate()
+               {
+                   if (tmpnum.batch > -tmpnum.clEnd)
+                   {
+                       flowLayoutPanel1.Height = tmpnum.rows * tmpnum.height;
+                   }
+                   else
+                   {
+                       flowLayoutPanel1.Height = tmpnum.rows * tmpnum.height;
+                   }
+
+
+               }));
+
                 Control[] lstContr = new Control[tmpArrNum];
                 int arrri = 0;
                 for (int i = tmpnum.clFirst; i <= tmpnum.clEnd; i++)
                 {
-                    var clpersonlist = new UserPerson();
+                    var clpersonlist2 = new UserPerson();
 
-                    var tmpcol = flowLayoutPanel1.Width / clpersonlist.Width;
+                    //clpersonlist2.Top = (i - 1) * clpersonlist2.Height;
+                    //clpersonlist.Left = ((i % tmpcol) + 1) * clpersonlist.Width;
+                    clpersonlist2.lblTitle.Text = "userPerson" + i.ToString();
 
-                    clpersonlist.Top = ((tmpnum.clEnd / tmpcol) + 2) * clpersonlist.Height;
-                    clpersonlist.Left = i;
-                    clpersonlist.lblTitle.Text = "userPerson" + i.ToString();
-
-                    foreach (Control item in clpersonlist.Controls)
+                    foreach (Control item in clpersonlist2.Controls)
                     {
                         item.MouseEnter += clpersonlist_MouseEnter;
                         item.MouseHover += clpersonlist_MouseEnter;
                         item.MouseLeave += clpersonlist_MouseLeave;
                     }
-                    clpersonlist.AllEventClick += clpersonlist_AllEventClick;
+                    clpersonlist2.AllEventClick += clpersonlist_AllEventClick;
 
                     //SetImage o = new SetImage() { userPicture = clpersonlist.userPicture1, strUserID = "F00012" };
                     //Task<SetImage> t = new Task<SetImage>(n => SetImageToPicture((SetImage)n), o);
                     //t.Start();
 
-                    lstContr[arrri] = clpersonlist;
+                    lstContr[arrri] = clpersonlist2;
                     arrri++;
                 }
                 if (_listControl == null)
                 {
                     _listControl = lstContr;
                 }
-                this.BeginInvoke(new Action(delegate()
+                this.Invoke(new Action(delegate()
                 {
                     this.flowLayoutPanel1.Controls.AddRange(lstContr);
                 }));
@@ -174,6 +197,8 @@ namespace FrmDemoControl
                     var msg = "Test1: Use Time:" + _stopwatch.Elapsed.ToString();
                     setMsg(lbl0Msg, msg);
                 }
+                this.ResumeLayout(false);
+                this.PerformLayout();
             }
             catch (Exception ex)
             {
@@ -246,8 +271,7 @@ namespace FrmDemoControl
             //notice time
             _stopwatch = new Stopwatch();
             _stopwatch.Start();
-            //todo some thing
-
+            //todo some thing         
 
             if (_listControl != null)
             {
@@ -269,6 +293,11 @@ namespace FrmDemoControl
                 noticeContrls.clFirst = 1;
                 noticeContrls.clEnd = Int32.Parse(this.numericUpDown1.Value.ToString());
                 noticeContrls.batch = noticeContrls.clEnd;
+                noticeContrls.rows = (noticeContrls.clEnd / tmpcol) + 1;
+                noticeContrls.cols = tmpcol;
+                noticeContrls.height = clpersonlist.Height;
+                noticeContrls.width = clpersonlist.Width;
+
                 initForm1(noticeContrls);
             }
 
@@ -340,6 +369,11 @@ namespace FrmDemoControl
                         noticeContrls.clEnd = (i * batchnum) + (tmpallNum - i * batchnum);
                     }
 
+                    noticeContrls.rows = tmpnum + 1;
+                    noticeContrls.cols = tmpcol;
+                    noticeContrls.height = clpersonlist.Height;
+                    noticeContrls.width = clpersonlist.Width;
+
                     ThreadPool.QueueUserWorkItem(initForm1, noticeContrls);
                 }
 
@@ -405,6 +439,11 @@ namespace FrmDemoControl
             lbl0Msg.Text = "Test4: User Time:" + tmpwatch.Elapsed.ToString();
 
         }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public class noticeContrls
@@ -412,6 +451,12 @@ namespace FrmDemoControl
 
         public int clFirst { get; set; }
         public int clEnd { get; set; }
+
+        public int rows { get; set; }
+        public int cols { get; set; }
+
+        public int height { get; set; }
+        public int width { get; set; }
 
         public int batch { get; set; }
     }

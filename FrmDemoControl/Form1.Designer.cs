@@ -28,33 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lbl0Msg = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.xtraScrollableControl1 = new DevExpress.XtraEditors.XtraScrollableControl();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            this.groupBox2.SuspendLayout();
+            this.xtraScrollableControl1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 17);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(900, 343);
-            this.flowLayoutPanel1.TabIndex = 0;
             // 
             // groupBox1
             // 
@@ -113,6 +102,26 @@
             0,
             0});
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(605, 59);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(163, 42);
+            this.button6.TabIndex = 3;
+            this.button6.Text = "Test4.Grid 10*5个控件 Add";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(605, 14);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(163, 42);
+            this.button5.TabIndex = 3;
+            this.button5.Text = "Test4.Grid 10*5个控件 AddRange";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(436, 14);
@@ -143,15 +152,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.flowLayoutPanel1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 143);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(906, 363);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            // 
             // lbl0Msg
             // 
             this.lbl0Msg.AutoSize = true;
@@ -163,33 +163,29 @@
             this.lbl0Msg.TabIndex = 2;
             this.lbl0Msg.Text = "label2";
             // 
-            // button5
+            // flowLayoutPanel1
             // 
-            this.button5.Location = new System.Drawing.Point(605, 14);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(163, 42);
-            this.button5.TabIndex = 3;
-            this.button5.Text = "Test4.Grid 10*5个控件 AddRange";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 3);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(900, 313);
+            this.flowLayoutPanel1.TabIndex = 3;
             // 
-            // button6
+            // xtraScrollableControl1
             // 
-            this.button6.Location = new System.Drawing.Point(605, 59);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(163, 42);
-            this.button6.TabIndex = 3;
-            this.button6.Text = "Test4.Grid 10*5个控件 Add";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button5_Click);
+            this.xtraScrollableControl1.AllowTouchScroll = true;
+            this.xtraScrollableControl1.Controls.Add(this.flowLayoutPanel1);
+            this.xtraScrollableControl1.Location = new System.Drawing.Point(16, 159);
+            this.xtraScrollableControl1.Name = "xtraScrollableControl1";
+            this.xtraScrollableControl1.Size = new System.Drawing.Size(901, 345);
+            this.xtraScrollableControl1.TabIndex = 4;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(929, 516);
+            this.Controls.Add(this.xtraScrollableControl1);
             this.Controls.Add(this.lbl0Msg);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.KeyPreview = true;
             this.Name = "Form1";
@@ -198,8 +194,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.xtraScrollableControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,9 +202,7 @@
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button button3;
@@ -219,6 +212,8 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private DevExpress.XtraEditors.XtraScrollableControl xtraScrollableControl1;
 
 
     }
